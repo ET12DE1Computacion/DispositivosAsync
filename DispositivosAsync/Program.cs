@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace DispositivosAsync
 {
@@ -12,9 +13,11 @@ namespace DispositivosAsync
 
             var texto = "Hola mundo asincronico";
 
-            Console.WriteLine($"hp: {hp.imprimir(texto)}");
-            Console.WriteLine($"kodak: {kodak.imprimir(texto)}");
-            Console.WriteLine($"canon: {canon.imprimir(texto)}");
+            var hpTask = Task.Run(() => Console.WriteLine($"hp: {hp.imprimir(texto)}"));
+            var kodakTask = Task.Run(() => Console.WriteLine($"kodak: {kodak.imprimir(texto)}"));
+            var canonTask = Task.Run(() => Console.WriteLine($"canon: {canon.imprimir(texto)}"));
+
+            Task.WaitAll(hpTask, kodakTask, canonTask);
             Console.ReadKey();
         }
     }

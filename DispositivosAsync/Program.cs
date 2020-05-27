@@ -5,7 +5,7 @@ namespace DispositivosAsync
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var hp = new Impresora(3000);
             var kodak = new Impresora(5000);
@@ -13,12 +13,16 @@ namespace DispositivosAsync
 
             var texto = "Hola mundo asincronico";
 
-            var hpTask = Task.Run(() => Console.WriteLine($"hp: {hp.imprimir(texto)}"));
-            var kodakTask = Task.Run(() => Console.WriteLine($"kodak: {kodak.imprimir(texto)}"));
-            var canonTask = Task.Run(() => Console.WriteLine($"canon: {canon.imprimir(texto)}"));
-
-            Task.WaitAll(hpTask, kodakTask, canonTask);
+            await Task.WhenAll(Imprimir(texto, "hp", hp),
+                               Imprimir(texto, "kodak", kodak),
+                               Imprimir(texto, "canon", canon));
             Console.ReadKey();
+        }
+
+        static async Task Imprimir(string texto, string nombreImpresora, Impresora impresora)
+        {
+            var impresion = await impresora.imprimirAsync(texto);
+            Console.WriteLine($"{nombreImpresora}: {impresion}");
         }
     }
 }

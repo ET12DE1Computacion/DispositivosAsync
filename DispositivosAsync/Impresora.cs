@@ -16,8 +16,7 @@ namespace DispositivosAsync
 
         public async Task<string> imprimirAsync(string texto)
         {
-            //Magia oscura que detiene el proceso cierta cantidad de milisegundos
-            System.Threading.Thread.Sleep(Demora);
+            await Task.Delay(Demora);
             return texto;
         }
     }
